@@ -11,7 +11,7 @@ import UIKit
 class AddViewController: UIViewController {
     @IBOutlet weak var textFeild: UITextField!
     @IBOutlet weak var switcheR: UISwitch!
-    var previousVC = ViewController()
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,11 +21,12 @@ class AddViewController: UIViewController {
   
     
     @IBAction func Adder(_ sender: Any) {
-        let task = Task()
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let task = Task(context: context)
         task.name = textFeild.text!
         task.important = switcheR.isOn
-        previousVC.tasks.append(task)
-        previousVC.tableview1.reloadData()// to append data onto the table view
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
         navigationController!.popViewController(animated: true)
         
         
